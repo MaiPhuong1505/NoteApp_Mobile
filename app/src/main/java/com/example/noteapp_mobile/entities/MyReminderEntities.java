@@ -32,7 +32,7 @@ public class MyReminderEntities implements Serializable {
         this.dateTime = dateTime;
         this.noteText = noteText;
         this.imagePath = imagePath;
-        this.color = color;
+        this.color = color ;
     }
 
     public int getId() {
