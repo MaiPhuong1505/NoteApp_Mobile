@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +31,9 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
 
     FloatingActionButton addNote;
 
+    public static final int REQUEST_CODE_AND_NOTE = 1;
     public static final int UPDATE_NOTE = 2;
+    public static final int SHOW_NOTE = 3;
     private int clickedPosition = -1;
 
     private RecyclerView noteRec;
@@ -60,12 +63,12 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         myNoteAdapter = new MyNoteAdapter(noteEntitiesList, this);
         noteRec.setAdapter(myNoteAdapter);
 
-        getAllNotes();
+        getAllNotes(SHOW_NOTE);
 
         return view;
     }
 
-    private void getAllNotes() {
+    private void getAllNotes(final int requestCode) {
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<MyNoteEntities>>{
             @Override
@@ -79,17 +82,38 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
             @Override
             protected void onPostExecute(List<MyNoteEntities> myNoteEntities) {
                 super.onPostExecute(myNoteEntities);
-                if (noteEntitiesList.size() == 0){
+
+                if(requestCode == SHOW_NOTE){
                     noteEntitiesList.addAll(myNoteEntities);
                     myNoteAdapter.notifyDataSetChanged();
-                }else{
-                    noteEntitiesList.add(0, myNoteEntities.get(0));
-                    myNoteAdapter.notifyItemChanged(0);
                 }
-                noteRec.smoothScrollToPosition(0);
+                else if(requestCode == REQUEST_CODE_AND_NOTE){
+                    noteEntitiesList.add(0, myNoteEntities.get(0));
+                    myNoteAdapter.notifyItemInserted(0);
+                    noteRec.smoothScrollToPosition(0);
+                }
+                else if(requestCode == UPDATE_NOTE){
+                    noteEntitiesList.remove(clickedPosition);
+                    noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
+                    myNoteAdapter.notifyItemChanged(clickedPosition);
+                }
             }
         }
         new GetNoteTask().execute();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_AND_NOTE && resultCode == RESULT_OK){
+            getAllNotes(REQUEST_CODE_AND_NOTE);
+        }
+        else if(requestCode == UPDATE_NOTE && resultCode == RESULT_OK){
+            if(data!=null){
+                getAllNotes(UPDATE_NOTE);
+            }
+        }
     }
 
     @Override
