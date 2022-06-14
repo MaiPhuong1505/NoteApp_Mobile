@@ -1,6 +1,7 @@
 package com.example.noteapp_mobile.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.noteapp_mobile.R;
+import com.example.noteapp_mobile.activities.AddNoteActivity;
 import com.example.noteapp_mobile.adapters.MyNoteAdapter;
 import com.example.noteapp_mobile.database.MyNoteDatabase;
 import com.example.noteapp_mobile.entities.MyNoteEntities;
@@ -22,10 +24,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.noteapp_mobile.listeners.MyNoteListeners;
 
-public class MyNoteFragment extends Fragment {
+public class MyNoteFragment extends Fragment implements MyNoteListeners{
 
     FloatingActionButton addNote;
+
+    public static final int UPDATE_NOTE = 2;
+    private int clickedPosition = -1;
 
     private RecyclerView noteRec;
     private List<MyNoteEntities> noteEntitiesList;
@@ -51,7 +57,7 @@ public class MyNoteFragment extends Fragment {
         noteRec = view.findViewById(R.id.note_list);
         noteRec.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         noteEntitiesList = new ArrayList<>();
-        myNoteAdapter = new MyNoteAdapter(noteEntitiesList);
+        myNoteAdapter = new MyNoteAdapter(noteEntitiesList, this);
         noteRec.setAdapter(myNoteAdapter);
 
         getAllNotes();
@@ -84,5 +90,14 @@ public class MyNoteFragment extends Fragment {
             }
         }
         new GetNoteTask().execute();
+    }
+
+    @Override
+    public void myNoteClick(MyNoteEntities myNoteEntities, int position) {
+        clickedPosition = position;
+        Intent intent = new Intent(getContext().getApplicationContext(), AddNoteActivity.class);
+        intent.putExtra("updateOrView", true);
+        intent.putExtra("myNotes", myNoteEntities);
+        startActivityForResult(intent, UPDATE_NOTE);
     }
 }
