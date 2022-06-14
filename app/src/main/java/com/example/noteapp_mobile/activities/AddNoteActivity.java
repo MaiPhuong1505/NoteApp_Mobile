@@ -62,7 +62,7 @@ public class AddNoteActivity extends AppCompatActivity {
             myNoteEntities.setId(alreadyAvailableNote.getId());
         }
 
-        if(alreadyAvailableNote != null && alreadyAvailableNote.getColor()!=null &alreadyAvailableNote.getColor().trim().isEmpty() ){
+        if(alreadyAvailableNote != null && alreadyAvailableNote.getColor()!=null && !alreadyAvailableNote.getColor().trim().isEmpty() ){
             switch (alreadyAvailableNote.getColor()){
                 case "#FFFB7B":
                     linearLayout.findViewById(R.id.view_color2).performCick();
