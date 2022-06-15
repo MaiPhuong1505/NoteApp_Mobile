@@ -1,16 +1,24 @@
 package com.example.noteapp_mobile.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.noteapp_mobile.R;
 import com.example.noteapp_mobile.entities.MyNoteEntities;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class AddNoteActivity extends AppCompatActivity {
 
@@ -20,7 +28,7 @@ public class AddNoteActivity extends AppCompatActivity {
     String selectedColor;
 
     ImageView addImg;
-    private String path;
+    private String imagePath;
 
     public static final int STORAGE_PERMISSION = 1;
     public static final int SELECT_IMG = 1;
@@ -42,6 +50,17 @@ public class AddNoteActivity extends AppCompatActivity {
             alreadyAvailableNote = (MyNoteEntities) getIntent().getSerializableExtra("myNotes");
             setViewUpdate();
         }
+
+        findViewById(R.id.img_remove).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addImg.setImageBitmap(null);
+                addImg.setVisibility(View.GONE);
+                findViewById(R.id.img_remove).setVisibility(View.GONE);
+
+                imagePath = "";
+            }
+        });
     }
 
     private void setViewUpdate() {
@@ -79,6 +98,31 @@ public class AddNoteActivity extends AppCompatActivity {
                 case "#FF96F5":
                     linearLayout.findViewById(R.id.view_color6).performCick();
                     break;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==SELECT_IMG && resultCode==RESULT_OK){
+            if(data!=null){
+                Uri selectImageUri = data.getData();
+                if( selectImageUri!=null ){
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(selectImageUri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        addImg.setImageBitmap(bitmap);
+                        addImg.setVisibility(View.VISIBLE);
+                        imagePath = getPathFromUri(selectImageUri);
+                        findViewById(R.id.img_remove).setVisibility(View.VISIBLE);
+
+                    }
+                    catch (Exception exception){
+                        Toast.makeText(this, exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         }
     }
