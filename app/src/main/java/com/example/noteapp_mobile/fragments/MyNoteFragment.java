@@ -63,12 +63,12 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         myNoteAdapter = new MyNoteAdapter(noteEntitiesList, this);
         noteRec.setAdapter(myNoteAdapter);
 
-        getAllNotes(SHOW_NOTE);
+        getAllNotes(SHOW_NOTE, false);
 
         return view;
     }
 
-    private void getAllNotes(final int requestCode) {
+    private void getAllNotes(final int requestCode, final  boolean isNoteDeleted) {
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<MyNoteEntities>>{
             @Override
@@ -94,8 +94,13 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
                 }
                 else if(requestCode == UPDATE_NOTE){
                     noteEntitiesList.remove(clickedPosition);
-                    noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
-                    myNoteAdapter.notifyItemChanged(clickedPosition);
+                    if(isNoteDeleted){
+                        myNoteAdapter.notifyItemRemoved(clickedPosition);
+                    }
+                    else {
+                        noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
+                        myNoteAdapter.notifyItemChanged(clickedPosition);
+                    }
                 }
             }
         }
@@ -107,11 +112,11 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_AND_NOTE && resultCode == RESULT_OK){
-            getAllNotes(REQUEST_CODE_AND_NOTE);
+            getAllNotes(REQUEST_CODE_AND_NOTE, false);
         }
         else if(requestCode == UPDATE_NOTE && resultCode == RESULT_OK){
             if(data!=null){
-                getAllNotes(UPDATE_NOTE);
+                getAllNotes(UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
             }
         }
     }
