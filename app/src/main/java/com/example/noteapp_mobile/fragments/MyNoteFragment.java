@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.noteapp_mobile.R;
@@ -62,6 +65,26 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         noteEntitiesList = new ArrayList<>();
         myNoteAdapter = new MyNoteAdapter(noteEntitiesList, this);
         noteRec.setAdapter(myNoteAdapter);
+
+        EditText inputSearch = view.findViewById(R.id.txt_search);
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(noteEntitiesList.size()!=0){
+                    myNoteAdapter.searchNote(editable.toString());
+                }
+            }
+        });
 
         getAllNotes(SHOW_NOTE, false);
 
