@@ -51,7 +51,12 @@ public class AddNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-
+        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         if(getIntent().getBooleanExtra("updateOrView", false)){
             alreadyAvailableNote = (MyNoteEntities) getIntent().getSerializableExtra("myNotes");

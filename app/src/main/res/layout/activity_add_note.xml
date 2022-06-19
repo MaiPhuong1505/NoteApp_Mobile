@@ -22,15 +22,15 @@
                 android:layout_height="50dp"
                 android:background="@color/white"/>
 
-                <ImageView
-                    android:id="@+id/img_back"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_baseline_arrow_back_ios_24"
-                    app:tint="@color/black" />
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                app:tint="@color/black" />
 
                 <TextView
                     android:layout_width="wrap_content"
