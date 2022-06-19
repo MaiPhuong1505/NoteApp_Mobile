@@ -13,8 +13,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +26,6 @@ import com.example.noteapp_mobile.entities.MyNoteEntities;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class AddNoteActivity extends AppCompatActivity {
 
@@ -51,6 +52,18 @@ public class AddNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
+        indicator1 = findViewById(R.id.view_indicator);
+        indicator2 = findViewById(R.id.view_indicator2);
+//        saveNote = findViewById(R.id.save_note);
+//        inputNoteText = findViewById(R.id.input_note_text);
+//        inputNoteTitle = findViewById(R.id.input_note_title);
+        txtDateTime = findViewById(R.id.txt_date_time);
+        addImg = findViewById(R.id.image_note);
+
+        selectedColor = "#FF937B";
+        imagePath = "";
+
+
         findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +76,7 @@ public class AddNoteActivity extends AppCompatActivity {
             setViewUpdate();
         }
 
+        //4th-47:00
         findViewById(R.id.img_remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +92,8 @@ public class AddNoteActivity extends AppCompatActivity {
     private void setViewUpdate() {
         inputNoteTitle.setText(alreadyAvailableNote.getTitle());
         inputNoteText.setText(alreadyAvailableNote.getNoteText());
-        textDateTime.setText(alreadyAvailableNote.getDateTime());
+        //textDateTime.setText(alreadyAvailableNote.getDateTime());
+        txtDateTime.setText(alreadyAvailableNote.getDateTime());
 
         if(alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()){
             addImg.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
@@ -89,6 +104,27 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     private void bottomSheet(){
+        final LinearLayout linearLayout = findViewById(R.id.bottom_layout);
+        final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        linearLayout.findViewById(R.id.bottom_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bottomSheetBehavior.getState()!=BottomSheetBehavior.STATE_EXPANDED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                else{
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+        });
+
+        final MyNoteEntities myNoteEntities = new MyNoteEntities();
+        myNoteEntities.setTitle(inputNoteTitle.getText().toString());
+        myNoteEntities.setNoteText(inputNoteText.getText().toString());
+        myNoteEntities.setDateTime(txtDateTime.getText().toString());
+        myNoteEntities.setColor(selectedColor);
+        myNoteEntities.setImagePath(imagePath);
+
         if(alreadyAvailableNote!=null){
             myNoteEntities.setId(alreadyAvailableNote.getId());
         }
@@ -96,28 +132,28 @@ public class AddNoteActivity extends AppCompatActivity {
         if(alreadyAvailableNote != null && alreadyAvailableNote.getColor()!=null && !alreadyAvailableNote.getColor().trim().isEmpty() ){
             switch (alreadyAvailableNote.getColor()){
                 case "#FFFB7B":
-                    linearLayout.findViewById(R.id.view_color2).performCick();
+                    linearLayout.findViewById(R.id.view_color2).performClick();
                     break;
                 case "#ADFF7B":
-                    linearLayout.findViewById(R.id.view_color3).performCick();
+                    linearLayout.findViewById(R.id.view_color3).performClick();
                     break;
                 case "#96FFEA":
-                    linearLayout.findViewById(R.id.view_color4).performCick();
+                    linearLayout.findViewById(R.id.view_color4).performClick();
                     break;
                 case "#969CFF":
-                    linearLayout.findViewById(R.id.view_color5).performCick();
+                    linearLayout.findViewById(R.id.view_color5).performClick();
                     break;
                 case "#FF96F5":
-                    linearLayout.findViewById(R.id.view_color6).performCick();
+                    linearLayout.findViewById(R.id.view_color6).performClick();
                     break;
             }
         }
 
         if(alreadyAvailableNote != null){
             linearLayout.findViewById(R.id.btn_remove).setVisibility(View.VISIBLE);
-            linearLayout.findViewById(R.id.btn_remove).setOnClickListener(new View.OnClickListener(){
-                @override
-                public void onClick(View v){
+            linearLayout.findViewById(R.id.btn_remove).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     showDeleteDialog();
                 }
