@@ -1,10 +1,13 @@
 package com.example.noteapp_mobile.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 
 import com.example.noteapp_mobile.R;
+import com.example.noteapp_mobile.fragments.MyNoteFragment;
+import com.example.noteapp_mobile.fragments.ReminderFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         chipNavigationBar = findViewById(R.id.bottom_navbar);
+        chipNavigationBar.setItemSelected(R.id.home, true);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyNoteFragment()).commit();
         
         bottomMenu();
     }
@@ -25,7 +30,16 @@ public class MainActivity extends AppCompatActivity {
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int i) {
-
+                Fragment fragment = null;
+                switch (i){
+                    case R.id.home:
+                        fragment = new MyNoteFragment();
+                        break;
+                    case R.id.reminder:
+                        fragment = new ReminderFragment();
+                        break;
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             }
         });
     }
