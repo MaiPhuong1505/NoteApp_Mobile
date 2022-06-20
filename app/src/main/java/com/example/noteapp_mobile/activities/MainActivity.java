@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.noteapp_mobile.R;
 import com.example.noteapp_mobile.fragments.MyNoteFragment;
+import com.example.noteapp_mobile.fragments.ReminderFragment;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         chipNavigationBar = findViewById(R.id.bottom_navbar);
         chipNavigationBar.setItemSelected(R.id.home, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MyNoteFragment()).commit();
+        
         bottomMenu();
     }
 
@@ -29,11 +31,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(int i) {
                 Fragment fragment = null;
-                if(i == R.id.home){
+                switch (i){
+                    case R.id.home:
                         fragment = new MyNoteFragment();
+                        break;
+                    case R.id.reminder:
+                        fragment = new ReminderFragment();
+                        break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-
             }
         });
     }
