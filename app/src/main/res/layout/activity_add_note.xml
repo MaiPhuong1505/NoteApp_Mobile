@@ -59,19 +59,20 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/txt_title"
                 android:layout_width="360dp"
                 android:layout_height="50dp"
-                android:layout_centerHorizontal="true"
                 android:layout_below="@id/txt_date_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/white"
                 android:hint="Note Title"
+                android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="@color/white"/>
+                android:textSize="30sp" />
             <View
                 android:id="@+id/view_indicator"
                 android:layout_width="7dp"
@@ -85,18 +86,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_title"
-                android:hint="Type your note here"
-                android:inputType="textMultiLine"
-                android:ellipsize="end"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@id/view_indicator2"
                 android:layout_toRightOf="@id/view_indicator"
+                android:ellipsize="end"
+                android:hint="Type your note here"
+                android:inputType="textMultiLine"
                 android:maxLines="8"
-                android:layout_marginTop="10dp"
+                android:padding="7dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:padding="7dp"
-                android:textSize="18sp"
-                />
+                android:textSize="18sp" />
 
             <View
                 android:id="@+id/view_indicator2"

@@ -26,6 +26,10 @@ import java.io.Serializable;
         @ColumnInfo(name = "color")
         private String color;
 
+        public MyNoteEntities()
+        {
+
+        }
         public MyNoteEntities(int id, String title, String dateTime, String noteText, String imagePath, String color) {
             this.id = id;
             this.title = title;

@@ -1,6 +1,7 @@
 package com.example.noteapp_mobile.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.noteapp_mobile.R;
+import com.example.noteapp_mobile.activities.AddNoteActivity;
 import com.example.noteapp_mobile.adapters.MyNoteAdapter;
 import com.example.noteapp_mobile.database.MyNoteDatabase;
 import com.example.noteapp_mobile.entities.MyNoteEntities;
@@ -26,7 +28,7 @@ import java.util.List;
 public class MyNoteFragment extends Fragment {
 
     FloatingActionButton addNote;
-
+    public static final int REQUEST_CODE_ADD_NOTE =1;
     private RecyclerView noteRec;
     private List<MyNoteEntities> noteEntitiesList;
     private MyNoteAdapter myNoteAdapter;
@@ -44,22 +46,22 @@ public class MyNoteFragment extends Fragment {
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivityForResult(new Intent(getContext(), AddNoteActivity.class),REQUEST_CODE_ADD_NOTE);
             }
         });
 
-        noteRec = view.findViewById(R.id.note_list);
+       /* noteRec = view.findViewById(R.id.note_list);
         noteRec.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         noteEntitiesList = new ArrayList<>();
         myNoteAdapter = new MyNoteAdapter(noteEntitiesList);
-        noteRec.setAdapter(myNoteAdapter);
+        noteRec.setAdapter(myNoteAdapter);*/
 
-        getAllNotes();
+      //  getAllNotes();
 
         return view;
     }
 
-    private void getAllNotes() {
+    /*private void getAllNotes() {
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<MyNoteEntities>>{
             @Override
@@ -84,5 +86,5 @@ public class MyNoteFragment extends Fragment {
             }
         }
         new GetNoteTask().execute();
-    }
+    }*/
 }
