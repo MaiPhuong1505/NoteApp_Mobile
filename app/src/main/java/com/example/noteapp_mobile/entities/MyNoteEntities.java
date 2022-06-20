@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
-    @Entity(tableName="note")
+    @Entity(tableName="note_db")
     public class MyNoteEntities implements Serializable {
 
         @PrimaryKey(autoGenerate = true)
@@ -25,6 +25,9 @@ import java.io.Serializable;
 
         @ColumnInfo(name = "color")
         private String color;
+
+        public MyNoteEntities() {
+        }
 
         public MyNoteEntities(int id, String title, String dateTime, String noteText, String imagePath, String color) {
             this.id = id;

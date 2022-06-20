@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.example.noteapp_mobile.dao.MyNoteDAO;
 import com.example.noteapp_mobile.entities.MyNoteEntities;
 
-@Database(entities = MyNoteEntities.class, version = 1, exportSchema = false)
+@Database(entities = {MyNoteEntities.class}, version = 1, exportSchema = false)
 public abstract class MyNoteDatabase extends RoomDatabase {
     private static MyNoteDatabase myNoteDatabase;
     public static synchronized MyNoteDatabase getMyNoteDatabase(Context context){
