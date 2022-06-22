@@ -24,28 +24,26 @@ import com.example.noteapp_mobile.R;
 import com.example.noteapp_mobile.database.MyNoteDatabase;
 import com.example.noteapp_mobile.entities.MyNoteEntities;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddNoteActivity extends AppCompatActivity {
 
     private EditText inputNoteTitle, inputNoteText;
-    private TextView txtDateTime, saveNote;
+    private TextView txtDateTime;
+    private FloatingActionButton saveNote;
     private View indicator1, indicator2;
-    String selectedColor;
-
-    ImageView addImg;
+    public String selectedColor;
+    public ImageView addImg;
     private String imagePath;
-
     public static final int STORAGE_PERMISSION = 1;
     public static final int SELECT_IMG = 1;
     private AlertDialog alertDialog;
-
-
     private MyNoteEntities alreadyAvailableNote;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +52,27 @@ public class AddNoteActivity extends AppCompatActivity {
 
         indicator1 = findViewById(R.id.view_indicator);
         indicator2 = findViewById(R.id.view_indicator2);
-//        saveNote = findViewById(R.id.save_note);
-//        inputNoteText = findViewById(R.id.input_note_text);
-//        inputNoteTitle = findViewById(R.id.input_note_title);
+        saveNote = findViewById(R.id.btn_add_note);
+       inputNoteText = findViewById(R.id.txt_note);
+       inputNoteTitle = findViewById(R.id.txt_title);
         txtDateTime = findViewById(R.id.txt_date_time);
         addImg = findViewById(R.id.image_note);
 
         selectedColor = "#FF937B";
-        imagePath = "";
+     //   imagePath = "";
 
+        saveNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveNotes();
+            }
+        });
 
-        findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
+        txtDateTime.setText(
+                new SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault())
+                        .format(new Date())
+        );
+        /*findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -74,10 +82,10 @@ public class AddNoteActivity extends AppCompatActivity {
         if(getIntent().getBooleanExtra("updateOrView", false)){
             alreadyAvailableNote = (MyNoteEntities) getIntent().getSerializableExtra("myNotes");
             setViewUpdate();
-        }
+        }*/
 
         //4th-47:00
-        findViewById(R.id.img_remove).setOnClickListener(new View.OnClickListener() {
+        /*findViewById(R.id.img_remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addImg.setImageBitmap(null);
@@ -86,13 +94,49 @@ public class AddNoteActivity extends AppCompatActivity {
 
                 imagePath = "";
             }
-        });
+        });*/
     }
 
-    private void setViewUpdate() {
+    private void saveNotes() {
+        if(inputNoteTitle.getText().toString().trim().isEmpty()){
+            Toast.makeText(this, "Note Title Can't Be Empty", Toast.LENGTH_LONG).show();
+            return;
+        }else
+        if(inputNoteText.getText().toString().trim().isEmpty()){
+            Toast.makeText(this, "Note Text Can't Be Empty", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final MyNoteEntities myNoteEntities = new MyNoteEntities();
+        myNoteEntities.setTitle(inputNoteTitle.getText().toString());
+        myNoteEntities.setTitle(inputNoteText.getText().toString());
+        myNoteEntities.setTitle(txtDateTime.getText().toString());
+        myNoteEntities.setTitle(selectedColor);
+
+        class SaveNotes extends AsyncTask<Void, Void, Void>{
+            @Override
+            protected Void doInBackground(Void... voids){
+                MyNoteDatabase.getMyNoteDatabase(getApplicationContext())
+                        .noteDAO()
+                        .insertNote(myNoteEntities);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void avoid)
+            {
+                super.onPostExecute(avoid);
+                Intent intent  = new Intent();
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+        new SaveNotes().execute();
+    }
+    /*private void setViewUpdate() {
         inputNoteTitle.setText(alreadyAvailableNote.getTitle());
         inputNoteText.setText(alreadyAvailableNote.getNoteText());
-        //textDateTime.setText(alreadyAvailableNote.getDateTime());
+        txtDateTime.setText(alreadyAvailableNote.getDateTime());
         txtDateTime.setText(alreadyAvailableNote.getDateTime());
 
         if(alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()){
@@ -101,9 +145,8 @@ public class AddNoteActivity extends AppCompatActivity {
             findViewById(R.id.img_remove).setVisibility(View.VISIBLE);
             imagePath = alreadyAvailableNote.getImagePath();
         }
-    }
-
-    private void bottomSheet(){
+    }*/
+   /* private void bottomSheet(){
         final LinearLayout linearLayout = findViewById(R.id.bottom_layout);
         final BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
         linearLayout.findViewById(R.id.bottom_layout).setOnClickListener(new View.OnClickListener() {
@@ -159,9 +202,9 @@ public class AddNoteActivity extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 
-    private void showDeleteDialog() {
+    /*private void showDeleteDialog() {
         if(alertDialog == null){
             AlertDialog.Builder builder = new AlertDialog.Builder(AddNoteActivity.this);
             View view = LayoutInflater.from(this).inflate(R.layout.layout_delete_note,
@@ -210,8 +253,8 @@ public class AddNoteActivity extends AppCompatActivity {
         }
         alertDialog.show();
     }
-
-    @Override
+*/
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -224,7 +267,7 @@ public class AddNoteActivity extends AppCompatActivity {
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         addImg.setImageBitmap(bitmap);
                         addImg.setVisibility(View.VISIBLE);
-                        imagePath = getPathFromUri(selectImageUri);
+               //         imagePath = getPathFromUri(selectImageUri);
                         findViewById(R.id.img_remove).setVisibility(View.VISIBLE);
 
                     }
@@ -234,10 +277,5 @@ public class AddNoteActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-
-
-    ////////////////////////////
-
+    }*/
 }
