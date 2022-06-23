@@ -64,13 +64,13 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
             }
         });
 
-       /* noteRec = view.findViewById(R.id.note_list);
+        noteRec = view.findViewById(R.id.note_list);
         noteRec.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         noteEntitiesList = new ArrayList<>();
         myNoteAdapter = new MyNoteAdapter(noteEntitiesList, this);
-        noteRec.setAdapter(myNoteAdapter);*/
+        noteRec.setAdapter(myNoteAdapter);
 
-       /* EditText inputSearch = view.findViewById(R.id.txt_search);
+        EditText inputSearch = view.findViewById(R.id.txt_search);
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -91,16 +91,10 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         });
 
         getAllNotes(SHOW_NOTE, false);
-*/
         return view;
     }
 
-    @Override
-    public void myNoteClick(MyNoteEntities myNoteEntities, int position) {
-
-    }
-
-   /* private void getAllNotes(final int requestCode, final  boolean isNoteDeleted) {
+    private void getAllNotes(final int requestCode, final  boolean isNoteDeleted) {
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<MyNoteEntities>>{
             @Override
@@ -138,8 +132,7 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         }
         new GetNoteTask().execute();
     }
-*/
-   /* @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -160,5 +153,5 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         intent.putExtra("updateOrView", true);
         intent.putExtra("myNotes", myNoteEntities);
         startActivityForResult(intent, UPDATE_NOTE);
-    }*/
+    }
 }

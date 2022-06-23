@@ -28,21 +28,21 @@ import com.example.noteapp_mobile.listeners.MyNoteListeners;
 public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder> {
 
     List<MyNoteEntities> noteEntitiesList;
-    /*MyNoteListeners myNoteListener;
+    MyNoteListeners myNoteListener;
 
     private List<MyNoteEntities> noteSearch;
-    private Timer timer;*/
+    private Timer timer;
 
 
     public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList) {
         this.noteEntitiesList = noteEntitiesList;
         }
 
-/*    public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList, MyNoteListeners myNoteListener) {
+    public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList, MyNoteListeners myNoteListener) {
         this.noteEntitiesList = noteEntitiesList;
         this.myNoteListener = myNoteListener;
         noteSearch = noteEntitiesList;
-    }*/
+    }
 
     @NonNull
     @Override
@@ -53,12 +53,12 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.setNote(noteEntitiesList.get(position));
-        /*holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myNoteListener.myNoteClick(noteEntitiesList.get(position), position);
             }
-        });*/
+        });
     }
 
     @Override
@@ -101,7 +101,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
         }
     }
 
-    /*public void searchNote(final String searchKeyword){
+    public void searchNote(final String searchKeyword){
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -126,11 +126,11 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
                 });
             }
         }, 500);
-    }*/
+    }
 
-    /*public void cancelTime(){
+    public void cancelTime(){
         if (timer!=null){
             timer.cancel();
         }
-    }*/
+    }
 }
