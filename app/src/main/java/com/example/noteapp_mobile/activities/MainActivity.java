@@ -31,13 +31,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(int i) {
                 Fragment fragment = null;
-                switch (i){
-                    case R.id.home:
-                        fragment = new MyNoteFragment();
-                        break;
-                    case R.id.reminder:
-                        fragment = new ReminderFragment();
-                        break;
+                if(i == R.id.home)
+                {
+                    fragment = new MyNoteFragment();
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
             }

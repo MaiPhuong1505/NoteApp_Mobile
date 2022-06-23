@@ -1,5 +1,7 @@
 package com.example.noteapp_mobile.fragments;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -47,6 +49,8 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         // Required empty public constructor
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +60,7 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivityForResult(new Intent(getContext(), AddNoteActivity.class), REQUEST_CODE_AND_NOTE);
             }
         });
 
@@ -87,7 +91,6 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         });
 
         getAllNotes(SHOW_NOTE, false);
-
         return view;
     }
 
@@ -129,7 +132,6 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         }
         new GetNoteTask().execute();
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

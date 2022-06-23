@@ -18,7 +18,7 @@ public abstract class MyNoteDatabase extends RoomDatabase {
                     context,
                     MyNoteDatabase.class,
                     "note_db"
-            ).build();
+            ).fallbackToDestructiveMigration().build();
         }
         return myNoteDatabase;
     }

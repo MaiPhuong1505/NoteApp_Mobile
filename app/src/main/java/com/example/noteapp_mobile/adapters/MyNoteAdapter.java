@@ -1,5 +1,6 @@
 package com.example.noteapp_mobile.adapters;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
@@ -33,9 +34,9 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
     private Timer timer;
 
 
-//    public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList) {
-//        this.noteEntitiesList = noteEntitiesList;
-//    }
+    public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList) {
+        this.noteEntitiesList = noteEntitiesList;
+        }
 
     public MyNoteAdapter(List<MyNoteEntities> noteEntitiesList, MyNoteListeners myNoteListener) {
         this.noteEntitiesList = noteEntitiesList;
@@ -50,7 +51,7 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.setNote(noteEntitiesList.get(position));
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,13 +79,11 @@ public class MyNoteAdapter extends RecyclerView.Adapter<MyNoteAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             txtItemTitle = itemView.findViewById(R.id.txt_item_title);
             txtItemNote = itemView.findViewById(R.id.txt_item_note);
             txtItemDate = itemView.findViewById(R.id.txt_item_date);
             linearLayout = itemView.findViewById(R.id.layout_note);
             roundedImageView = itemView.findViewById(R.id.image_note);
-
         }
 
         public void setNote(MyNoteEntities myNoteEntities) {
