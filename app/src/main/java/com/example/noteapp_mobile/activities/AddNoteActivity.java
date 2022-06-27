@@ -226,6 +226,93 @@ public class AddNoteActivity extends AppCompatActivity {
         final ImageView imgColor5 = linearLayout.findViewById(R.id.img_color5);
         final ImageView imgColor6 = linearLayout.findViewById(R.id.img_color6);
 
+
+        linearLayout.findViewById(R.id.img_color1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#FF937B";
+                imgColor1.setImageResource(R.drawable.ic_baseline_done_24);
+                imgColor2.setImageResource(0);
+                imgColor3.setImageResource(0);
+                imgColor4.setImageResource(0);
+                imgColor5.setImageResource(0);
+                imgColor6.setImageResource(0);
+                setViewColor();
+            }
+        });
+
+        linearLayout.findViewById(R.id.img_color2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#FFFB7B";
+                imgColor1.setImageResource(0);
+                imgColor2.setImageResource(R.drawable.ic_baseline_done_24);
+                imgColor3.setImageResource(0);
+                imgColor4.setImageResource(0);
+                imgColor5.setImageResource(0);
+                imgColor6.setImageResource(0);
+                setViewColor();
+            }
+        });
+
+        linearLayout.findViewById(R.id.img_color3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#ADFF7B";
+                imgColor1.setImageResource(0);
+                imgColor2.setImageResource(0);
+                imgColor3.setImageResource(R.drawable.ic_baseline_done_24);
+                imgColor4.setImageResource(0);
+                imgColor5.setImageResource(0);
+                imgColor6.setImageResource(0);
+                setViewColor();
+            }
+        });
+
+        linearLayout.findViewById(R.id.img_color4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#96FFEA";
+                imgColor1.setImageResource(0);
+                imgColor2.setImageResource(0);
+                imgColor3.setImageResource(0);
+                imgColor4.setImageResource(R.drawable.ic_baseline_done_24);
+                imgColor5.setImageResource(0);
+                imgColor6.setImageResource(0);
+                setViewColor();
+            }
+        });
+
+        linearLayout.findViewById(R.id.img_color5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#969CFF";
+                imgColor1.setImageResource(0);
+                imgColor2.setImageResource(0);
+                imgColor3.setImageResource(0);
+                imgColor4.setImageResource(0);
+                imgColor5.setImageResource(R.drawable.ic_baseline_done_24);
+                imgColor6.setImageResource(0);
+                setViewColor();
+            }
+        });
+
+        linearLayout.findViewById(R.id.img_color6).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedColor = "#FF96F5";
+                imgColor1.setImageResource(0);
+                imgColor2.setImageResource(0);
+                imgColor3.setImageResource(0);
+                imgColor4.setImageResource(0);
+                imgColor5.setImageResource(0);
+                imgColor6.setImageResource(R.drawable.ic_baseline_done_24);
+                setViewColor();
+            }
+        });
+
+
+
         final MyNoteEntities myNoteEntities = new MyNoteEntities();
         myNoteEntities.setTitle(inputNoteTitle.getText().toString());
         myNoteEntities.setNoteText(inputNoteText.getText().toString());
