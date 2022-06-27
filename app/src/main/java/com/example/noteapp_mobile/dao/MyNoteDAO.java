@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.noteapp_mobile.entities.MyNoteEntities;
 
@@ -23,4 +24,6 @@ public interface MyNoteDAO {
     void deleteNotes(MyNoteEntities noteEntities);
 
 
+    @Update
+    void updateNotes(MyNoteEntities noteEntities);
 }

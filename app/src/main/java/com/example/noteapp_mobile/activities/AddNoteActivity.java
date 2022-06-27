@@ -54,13 +54,18 @@ public class AddNoteActivity extends AppCompatActivity {
         indicator1 = findViewById(R.id.view_indicator);
         indicator2 = findViewById(R.id.view_indicator2);
         saveNote = findViewById(R.id.save_note);
-       inputNoteText = findViewById(R.id.txt_note);
-       inputNoteTitle = findViewById(R.id.txt_title);
+        inputNoteText = findViewById(R.id.txt_note);
+        inputNoteTitle = findViewById(R.id.txt_title);
         txtDateTime = findViewById(R.id.txt_date_time);
         addImg = findViewById(R.id.image_note);
 
         selectedColor = "#FF937B";
         imagePath = "";
+
+        if(getIntent().getBooleanExtra("updateOrView", false)){
+            alreadyAvailableNote = (MyNoteEntities) getIntent().getSerializableExtra("myNotes");
+            setViewUpdate();
+        }
 
         saveNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,10 +87,7 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
 
-        if(getIntent().getBooleanExtra("updateOrView", false)){
-            alreadyAvailableNote = (MyNoteEntities) getIntent().getSerializableExtra("myNotes");
-            setViewUpdate();
-        }
+
 
         //4th-47:00
         findViewById(R.id.img_remove).setOnClickListener(new View.OnClickListener() {
@@ -107,6 +109,46 @@ public class AddNoteActivity extends AppCompatActivity {
         GradientDrawable gradientDrawable2 = (GradientDrawable) indicator2.getBackground();
         gradientDrawable2.setColor(Color.parseColor(selectedColor));
     }
+
+//    private void updateNotes(){
+//        if(inputNoteTitle.getText().toString().trim().isEmpty()){
+//            Toast.makeText(this, "Note Title Can't Be Empty", Toast.LENGTH_LONG).show();
+//            return;
+//        }else
+//        if(inputNoteText.getText().toString().trim().isEmpty()){
+//            Toast.makeText(this, "Note Text Can't Be Empty", Toast.LENGTH_LONG).show();
+//            return;
+//        }
+//
+//        final MyNoteEntities myNoteEntities = new MyNoteEntities();
+//        myNoteEntities.setTitle(inputNoteTitle.getText().toString());
+//        myNoteEntities.setNoteText(inputNoteText.getText().toString());
+//        myNoteEntities.setDateTime(txtDateTime.getText().toString());
+//        myNoteEntities.setColor(selectedColor);
+//
+//        class UpdateNotes extends AsyncTask<Void, Void, Void>{
+//            @Override
+//            protected Void doInBackground(Void... voids){
+//                MyNoteDatabase.getMyNoteDatabase(getApplicationContext())
+//                        .noteDAO()
+//                        .updateNotes(myNoteEntities);
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void avoid)
+//            {
+//                super.onPostExecute(avoid);
+//                Intent intent  = new Intent();
+//                setResult(RESULT_OK, intent);
+//                finish();
+//            }
+//        }
+//        new UpdateNotes().execute();
+//
+//
+//    }
+
     private void saveNotes() {
         if(inputNoteTitle.getText().toString().trim().isEmpty()){
             Toast.makeText(this, "Note Title Can't Be Empty", Toast.LENGTH_LONG).show();
@@ -122,6 +164,10 @@ public class AddNoteActivity extends AppCompatActivity {
         myNoteEntities.setNoteText(inputNoteText.getText().toString());
         myNoteEntities.setDateTime(txtDateTime.getText().toString());
         myNoteEntities.setColor(selectedColor);
+
+        if(alreadyAvailableNote!=null){
+            myNoteEntities.setId(alreadyAvailableNote.getId());
+        }
 
         class SaveNotes extends AsyncTask<Void, Void, Void>{
             @Override
@@ -142,11 +188,13 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         }
         new SaveNotes().execute();
+
+
     }
     private void setViewUpdate() {
         inputNoteTitle.setText(alreadyAvailableNote.getTitle());
         inputNoteText.setText(alreadyAvailableNote.getNoteText());
-        txtDateTime.setText(alreadyAvailableNote.getDateTime());
+        //txtDateTime.setText(alreadyAvailableNote.getDateTime());
         txtDateTime.setText(alreadyAvailableNote.getDateTime());
 
         if(alreadyAvailableNote.getImagePath() != null && !alreadyAvailableNote.getImagePath().trim().isEmpty()){
@@ -171,6 +219,13 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
 
+        final ImageView imgColor1 = linearLayout.findViewById(R.id.img_color1);
+        final ImageView imgColor2 = linearLayout.findViewById(R.id.img_color2);
+        final ImageView imgColor3 = linearLayout.findViewById(R.id.img_color3);
+        final ImageView imgColor4 = linearLayout.findViewById(R.id.img_color4);
+        final ImageView imgColor5 = linearLayout.findViewById(R.id.img_color5);
+        final ImageView imgColor6 = linearLayout.findViewById(R.id.img_color6);
+
         final MyNoteEntities myNoteEntities = new MyNoteEntities();
         myNoteEntities.setTitle(inputNoteTitle.getText().toString());
         myNoteEntities.setNoteText(inputNoteText.getText().toString());
@@ -178,9 +233,9 @@ public class AddNoteActivity extends AppCompatActivity {
         myNoteEntities.setColor(selectedColor);
         myNoteEntities.setImagePath(imagePath);
 
-        if(alreadyAvailableNote!=null){
-            myNoteEntities.setId(alreadyAvailableNote.getId());
-        }
+//        if(alreadyAvailableNote!=null){
+//            myNoteEntities.setId(alreadyAvailableNote.getId());
+//        }
 
         if(alreadyAvailableNote != null && alreadyAvailableNote.getColor()!=null && !alreadyAvailableNote.getColor().trim().isEmpty() ){
             switch (alreadyAvailableNote.getColor()){

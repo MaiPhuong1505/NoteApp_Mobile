@@ -90,11 +90,11 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
             }
         });
 
-        getAllNotes(SHOW_NOTE, false);
+        getAllNotes(SHOW_NOTE);
         return view;
     }
 
-    private void getAllNotes(final int requestCode, final  boolean isNoteDeleted) {
+    private void getAllNotes(final int requestCode) {
         @SuppressLint("StaticFieldLeak")
         class GetNoteTask extends AsyncTask<Void, Void, List<MyNoteEntities>>{
             @Override
@@ -120,13 +120,16 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
                 }
                 else if(requestCode == UPDATE_NOTE){
                     noteEntitiesList.remove(clickedPosition);
-                    if(isNoteDeleted){
-                        myNoteAdapter.notifyItemRemoved(clickedPosition);
-                    }
-                    else {
-                        noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
-                        myNoteAdapter.notifyItemChanged(clickedPosition);
-                    }
+//                    if(isNoteDeleted){
+//                        myNoteAdapter.notifyItemRemoved(clickedPosition);
+//                    }
+//                    else {
+//                        noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
+//                        myNoteAdapter.notifyItemChanged(clickedPosition);
+//                    }
+                    //myNoteAdapter.notifyItemRemoved(clickedPosition);
+                    noteEntitiesList.add(clickedPosition, myNoteEntities.get(clickedPosition));
+                    myNoteAdapter.notifyItemChanged(clickedPosition);
                 }
             }
         }
@@ -137,11 +140,11 @@ public class MyNoteFragment extends Fragment implements MyNoteListeners{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_AND_NOTE && resultCode == RESULT_OK){
-            getAllNotes(REQUEST_CODE_AND_NOTE, false);
+            getAllNotes(REQUEST_CODE_AND_NOTE);
         }
         else if(requestCode == UPDATE_NOTE && resultCode == RESULT_OK){
             if(data!=null){
-                getAllNotes(UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
+                getAllNotes(UPDATE_NOTE);
             }
         }
     }
